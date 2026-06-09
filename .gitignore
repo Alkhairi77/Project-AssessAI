@@ -1,0 +1,18 @@
+# Python
+backend_api/venv/
+backend_api/venv311/
+__pycache__/
+*.pyc
+
+# Node
+backend_nestjs/node_modules/
+
+# Env
+.env
+.env.*
+
+# VS Code
+.vscode/
+
+# JetBrains
+.idea/
