@@ -116,7 +116,7 @@ REQ-06: Sistem harus menampilkan bilah progres (progress bar) grayscale saat pro
 
 Tabel users:
 
-[cite_start]id: BIGINT (Primary Key, Auto Increment)[cite: 277].
+[cite_start]id: INT (Primary Key, Auto Increment)[cite: 277].
 
 [cite_start]name: VARCHAR(255)[cite: 277].
 
@@ -130,9 +130,9 @@ Tabel users:
 
 Tabel presentations:
 
-id: BIGINT (Primary Key, Auto Increment).
+id: INT (Primary Key, Auto Increment).
 
-user_id: BIGINT (Foreign Key ke users.id).
+user_id: INT (Foreign Key ke users.id).
 
 title: VARCHAR(255).
 
@@ -144,9 +144,9 @@ uploaded_at: DATETIME.
 
 Tabel evaluations:
 
-id: BIGINT (Primary Key, Auto Increment).
+id: INT (Primary Key, Auto Increment).
 
-presentation_id: BIGINT (Foreign Key ke presentations.id).
+presentation_id: INT (Foreign Key ke presentations.id).
 
 overall_score: FLOAT.
 
@@ -160,9 +160,9 @@ feedback: TEXT.
 
 Tabel emotion_results:
 
-id: BIGINT (Primary Key, Auto Increment).
+id: INT (Primary Key, Auto Increment).
 
-evaluation_id: BIGINT (Foreign Key ke evaluations.id).
+evaluation_id: INT (Foreign Key ke evaluations.id).
 
 emotion_label: VARCHAR(50).
 
@@ -170,7 +170,7 @@ confidence_score: FLOAT (Nilai probabilitas keluaran lapisan Softmax).
 
 Tabel rubrics:
 
-id: BIGINT (Primary Key, Auto Increment).
+id: INT (Primary Key, Auto Increment).
 
 criteria_name: VARCHAR(255).
 

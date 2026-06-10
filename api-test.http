@@ -1,0 +1,150 @@
+# AssessAI API Testing
+# Gunakan extension "REST Client" di VS Code untuk menjalankan file ini
+# Install: https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+#
+# Cara pakai: klik tombol "Send Request" yang muncul di atas setiap ###
+
+@baseUrl = http://localhost:3000/api
+@token = GANTI_DENGAN_TOKEN_DARI_LOGIN
+
+###############################################
+# AUTH ENDPOINTS
+###############################################
+
+### [1] Register Mahasiswa
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Budi Santoso",
+  "email": "budi@student.ac.id",
+  "password": "budi123",
+  "role": "mahasiswa",
+  "nimNip": "2021001001"
+}
+
+###
+
+### [2] Register Dosen (sudah ada via seed: dosen@gmail.com / dosen123)
+POST {{baseUrl}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Dr. Ahmad Fauzi",
+  "email": "ahmad@dosen.ac.id",
+  "password": "dosen456",
+  "role": "dosen",
+  "nimNip": "197803012005011001"
+}
+
+###
+
+### [3] Login Mahasiswa → copy token dari response ke @token di atas
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "budi@student.ac.id",
+  "password": "budi123"
+}
+
+###
+
+### [4] Login Dosen (dari seed)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "dosen@gmail.com",
+  "password": "dosen123"
+}
+
+###
+
+### [5] Get Profil User (butuh login dulu, isi @token)
+GET {{baseUrl}}/auth/profile
+Authorization: Bearer {{token}}
+
+###############################################
+# PRESENTATIONS ENDPOINTS
+###############################################
+
+###
+
+### [6] Get Semua Presentasi User
+GET {{baseUrl}}/presentations
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJkb3NlbkBnbWFpbC5jb20iLCJyb2xlIjoiZG9zZW4iLCJpYXQiOjE3ODEwNjMyMTksImV4cCI6MTc4MTY2ODAxOX0.ndxSg6DPPFdPDT3YLcw3M7XKVWEoi9RIla5x_h8rT_A
+
+###
+
+### [7] Get Detail Presentasi by ID
+GET {{baseUrl}}/presentations/1
+Authorization: Bearer {{token}}
+
+###############################################
+# EVALUATIONS ENDPOINTS
+###############################################
+
+###
+
+### [8] Get Riwayat Evaluasi (Mahasiswa)
+GET {{baseUrl}}/evaluations/history
+Authorization: Bearer {{token}}
+
+###
+
+### [9] Get Dashboard Stats (Mahasiswa)
+GET {{baseUrl}}/evaluations/dashboard-stats
+Authorization: Bearer {{token}}
+
+###
+
+### [10] Get Stats Semua Mahasiswa (Dosen)
+GET {{baseUrl}}/evaluations/dosen/stats
+Authorization: Bearer {{token}}
+
+###
+
+### [11] Get Hasil Evaluasi by Presentation ID
+GET {{baseUrl}}/evaluations/by-presentation/1
+Authorization: Bearer {{token}}
+
+###############################################
+# RUBRICS ENDPOINTS
+###############################################
+
+###
+
+### [12] Get Semua Rubrik
+GET {{baseUrl}}/rubrics
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZW1haWwiOiJkb3NlbkBnbWFpbC5jb20iLCJyb2xlIjoiZG9zZW4iLCJpYXQiOjE3ODEwNjMyMTksImV4cCI6MTc4MTY2ODAxOX0.ndxSg6DPPFdPDT3YLcw3M7XKVWEoi9RIla5x_h8rT_A
+
+###
+
+### [13] Update Bobot Rubrik (Dosen only)
+PATCH {{baseUrl}}/rubrics/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "weight": 40
+}
+
+###############################################
+# ROOT / HEALTH CHECK
+###############################################
+
+###
+
+### [14] Cek API berjalan (tanpa auth)
+GET {{baseUrl}}
+
+###
+
+### [15] Cek FastAPI AI Server
+GET http://localhost:8000/health
+
+###
+
+### [16] FastAPI Swagger Docs (buka di browser)
+# http://localhost:8000/docs

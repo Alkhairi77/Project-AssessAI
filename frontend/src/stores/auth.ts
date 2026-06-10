@@ -11,9 +11,9 @@ interface User {
 }
 
 export const useAuthStore = defineStore('auth', () => {
-  const token = ref<string | null>(localStorage.getItem('voxgrade_token'))
+  const token = ref<string | null>(localStorage.getItem('assess_token'))
   const user = ref<User | null>(
-    JSON.parse(localStorage.getItem('voxgrade_user') || 'null'),
+    JSON.parse(localStorage.getItem('assess_user') || 'null'),
   )
 
   const isAuthenticated = computed(() => !!token.value && !!user.value)
@@ -41,22 +41,22 @@ export const useAuthStore = defineStore('auth', () => {
   async function fetchProfile() {
     const response = await api.get('/auth/profile')
     user.value = response.data
-    localStorage.setItem('voxgrade_user', JSON.stringify(response.data))
+    localStorage.setItem('assess_user', JSON.stringify(response.data))
     return response.data
   }
 
   function setAuth(newToken: string, newUser: User) {
     token.value = newToken
     user.value = newUser
-    localStorage.setItem('voxgrade_token', newToken)
-    localStorage.setItem('voxgrade_user', JSON.stringify(newUser))
+    localStorage.setItem('assess_token', newToken)
+    localStorage.setItem('assess_user', JSON.stringify(newUser))
   }
 
   function logout() {
     token.value = null
     user.value = null
-    localStorage.removeItem('voxgrade_token')
-    localStorage.removeItem('voxgrade_user')
+    localStorage.removeItem('assess_token')
+    localStorage.removeItem('assess_user')
   }
 
   return {
