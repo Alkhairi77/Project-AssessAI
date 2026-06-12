@@ -7,7 +7,7 @@
       <div class="page-header flex items-center justify-between">
         <div>
           <h1 class="page-title">
-            Selamat datang, {{ authStore.user?.name?.split(' ')[0] }} 👋
+            Selamat datang, {{ authStore.user?.name?.split(' ')[0] }}!
           </h1>
           <p class="page-subtitle">{{ greeting }}</p>
         </div>

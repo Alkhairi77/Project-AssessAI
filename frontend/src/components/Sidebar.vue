@@ -10,7 +10,7 @@
           </svg>
         </div>
         <div>
-          <div class="text-white font-bold text-sm tracking-widest uppercase">VoxGrade</div>
+          <div class="text-white font-bold text-sm tracking-widest uppercase">AssessAI</div>
           <div class="text-gray-500 text-xs">AI Speech Evaluator</div>
         </div>
       </div>
