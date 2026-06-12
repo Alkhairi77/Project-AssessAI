@@ -10,7 +10,7 @@
             <circle cx="16" cy="16" r="2" fill="black"/>
           </svg>
         </div>
-        <h1 class="text-2xl font-bold text-vox-black tracking-tight">VoxGrade</h1>
+        <h1 class="text-2xl font-bold text-vox-black tracking-tight">AssessAI</h1>
         <p class="text-vox-gray text-sm mt-1">AI Speech Evaluation System</p>
       </div>
 
@@ -151,7 +151,7 @@
       </div>
 
       <p class="text-center text-xs text-vox-midgray mt-6">
-        VoxGrade &copy; 2024 — AI-Based Presentation Assessment
+        AssessAI &copy; 2026 — AI-Based Presentation Assessment
       </p>
     </div>
   </div>
