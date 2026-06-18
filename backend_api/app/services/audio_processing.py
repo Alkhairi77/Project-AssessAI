@@ -33,7 +33,8 @@ def load_and_preprocess(file_path: str):
 def extract_mfcc(audio: np.ndarray, sr: int) -> np.ndarray:
     """
     Extract MFCC features from audio.
-    Returns: numpy array of shape (1, MAX_PAD_LEN, N_MFCC, 1) for CNN input.
+    Model expects input shape: (batch, N_MFCC=40, MAX_PAD_LEN=216, 1)
+    i.e. (batch, n_mfcc, time_steps, 1) — NOT transposed.
     """
     mfcc = librosa.feature.mfcc(
         y=audio,
@@ -42,24 +43,25 @@ def extract_mfcc(audio: np.ndarray, sr: int) -> np.ndarray:
         n_fft=N_FFT,
         hop_length=HOP_LENGTH,
     )
+    # mfcc shape from librosa: (N_MFCC, time_steps) = (40, T)
+    # Model expects: (N_MFCC, MAX_PAD_LEN) = (40, 216)
+    # DO NOT transpose — keep (40, T) and pad/truncate on axis=1 (time axis)
 
-    # Transpose: (time_steps, n_mfcc)
-    mfcc = mfcc.T
-
-    # Pad or truncate to fixed length
-    if mfcc.shape[0] < MAX_PAD_LEN:
-        pad_width = MAX_PAD_LEN - mfcc.shape[0]
-        mfcc = np.pad(mfcc, ((0, pad_width), (0, 0)), mode='constant')
+    # Pad or truncate along time axis (axis=1)
+    if mfcc.shape[1] < MAX_PAD_LEN:
+        pad_width = MAX_PAD_LEN - mfcc.shape[1]
+        mfcc = np.pad(mfcc, ((0, 0), (0, pad_width)), mode='constant')
     else:
-        mfcc = mfcc[:MAX_PAD_LEN, :]
+        mfcc = mfcc[:, :MAX_PAD_LEN]
 
     # Normalize MFCC
     mfcc = (mfcc - np.mean(mfcc)) / (np.std(mfcc) + 1e-8)
 
-    # Reshape to (1, MAX_PAD_LEN, N_MFCC, 1) for CNN-LSTM
-    mfcc = mfcc.reshape(1, MAX_PAD_LEN, N_MFCC, 1)
+    # Reshape to (1, N_MFCC, MAX_PAD_LEN, 1) for CNN input
+    mfcc = mfcc.reshape(1, N_MFCC, MAX_PAD_LEN, 1)
 
     return mfcc
+
 
 
 def compute_articulation_score(audio: np.ndarray, sr: int) -> float:

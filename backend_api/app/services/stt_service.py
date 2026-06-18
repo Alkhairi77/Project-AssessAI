@@ -23,12 +23,24 @@ def get_whisper_model():
 def transcribe_audio(file_path: str) -> str:
     """
     Transcribe audio file to text using Whisper.
+    Loads audio via librosa to avoid FFmpeg dependency on Windows.
     Returns transcription string.
     """
     try:
+        import numpy as np
+        import librosa
+
         model = get_whisper_model()
+
+        # Load audio with librosa at 16kHz (Whisper's required sample rate)
+        audio_array, _ = librosa.load(file_path, sr=16000, mono=True)
+
+        # Convert to float32 as Whisper expects
+        audio_array = audio_array.astype(np.float32)
+
+        # Pass numpy array directly — no FFmpeg needed
         result = model.transcribe(
-            file_path,
+            audio_array,
             language=WHISPER_LANGUAGE,
             task="transcribe",
             fp16=False,
@@ -38,6 +50,7 @@ def transcribe_audio(file_path: str) -> str:
     except Exception as e:
         print(f"[STT] Transcription error: {e}")
         return ""
+
 
 
 def analyze_sentiment(text: str) -> float:
@@ -63,7 +76,7 @@ def analyze_sentiment(text: str) -> float:
     negative_words = [
         "maaf", "mohon maaf", "tidak bisa", "gagal", "salah", "error",
         "bingung", "tidak tahu", "lupa", "kurang", "belum", "tidak jelas",
-        "apa ya", "hmm", "eh", "ah", "um", "anu", "gitu", "kayak",
+        "apa ya", "hmm", "eh", "ah", "um", "anu", "gitu", "kayak", "ooo", "eee", "aaa", 
     ]
 
     # Filler words (reduce professionalism)
@@ -134,13 +147,13 @@ def generate_feedback(
     if sentiment_score >= 75:
         feedbacks.append("Pilihan kata dan konten presentasi terdengar profesional dan terstruktur.")
     elif sentiment_score >= 50:
-        feedbacks.append("Kurangi penggunaan kata pengisi (seperti 'eh', 'um', 'anu') untuk kesan lebih profesional.")
+        feedbacks.append("Kurangi penggunaan kata pengisi (seperti 'eh', 'um', 'oo') untuk kesan lebih profesional.")
     else:
         feedbacks.append("Perbanyak kosakata akademik dan kurangi kata-kata tidak formal dalam presentasi.")
 
     # Overall recommendation
     if overall_score >= 85:
-        feedbacks.append("🎉 Presentasi sangat baik! Terus pertahankan kualitas ini.")
+        feedbacks.append("Presentasi sangat baik! Terus pertahankan kualitas ini.")
     elif overall_score >= 70:
         feedbacks.append("Presentasi sudah cukup baik. Lakukan latihan rutin untuk hasil yang lebih optimal.")
     else:
