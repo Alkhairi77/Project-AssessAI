@@ -1,8 +1,8 @@
-# VoxGrade — Walkthrough Implementasi Lengkap
+# assessai — Walkthrough Implementasi Lengkap
 
 ## Apa yang Telah Dibangun
 
-Sistem **VoxGrade** — AI-Based Student Presentation Assessment — telah diimplementasikan secara penuh mencakup 3 subsistem:
+Sistem **assessai** — AI-Based Student Presentation Assessment — telah diimplementasikan secara penuh mencakup 3 subsistem:
 
 ---
 
@@ -55,9 +55,9 @@ Project/
 ### Step 1 — Jalankan MySQL
 Buka XAMPP Control Panel → Start **MySQL**
 
-Pastikan database `voxgrade` ada (buat manual jika belum):
+Pastikan database `assessai` ada (buat manual jika belum):
 ```sql
-CREATE DATABASE IF NOT EXISTS voxgrade CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE DATABASE IF NOT EXISTS assessai CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 ```
 
 ### Step 2 — Setup Database NestJS
@@ -65,7 +65,7 @@ CREATE DATABASE IF NOT EXISTS voxgrade CHARACTER SET utf8mb4 COLLATE utf8mb4_uni
 cd backend_nestjs
 
 # Jalankan migrasi (buat tabel)
-npx prisma migrate dev --name init_voxgrade_schema
+npx prisma migrate dev --name init_assessai_schema
 
 # Seed data default (rubrik + akun dosen test)
 npx ts-node prisma/seed.ts
@@ -154,7 +154,7 @@ npm run dev
 Setelah seed dijalankan:
 | Role | Email | Password |
 |------|-------|----------|
-| Dosen | dosen@voxgrade.ac.id | dosen123 |
+| Dosen | dosen@assessai.ac.id | dosen123 |
 
 Daftarkan akun Mahasiswa sendiri melalui halaman `/register`.
 

@@ -6,7 +6,9 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/dashboard',
+      name: 'landing',
+      component: () => import('../views/LandingView.vue'),
+      meta: { requiresGuest: false },
     },
     {
       path: '/login',
@@ -61,6 +63,11 @@ const router = createRouter({
 
 router.beforeEach((to, _from, next) => {
   const auth = useAuthStore()
+
+  // Redirect authenticated users away from landing page to dashboard
+  if (to.name === 'landing' && auth.isAuthenticated) {
+    return next('/dashboard')
+  }
 
   if (to.meta.requiresAuth && !auth.isAuthenticated) {
     return next('/login')
