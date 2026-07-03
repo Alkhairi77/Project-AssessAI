@@ -1,7 +1,9 @@
 <template>
   <div class="flex min-h-screen bg-vox-offwhite">
     <Sidebar />
-    <main class="flex-1 ml-64 p-8 animate-fade-in">
+    <div class="flex-1 ml-64 flex flex-col">
+      <Navbar />
+      <main class="flex-1 p-8 animate-fade-in">
       <div class="page-header">
         <h1 class="page-title">Profil Saya</h1>
         <p class="page-subtitle">Kelola informasi akun dan foto profil Anda</p>
@@ -133,13 +135,15 @@
           </div>
         </div>
       </div>
-    </main>
+      </main>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import Sidebar from '../components/Sidebar.vue'
+import Navbar from '../components/Navbar.vue'
 import { useAuthStore } from '../stores/auth'
 import api from '../services/api'
 

@@ -1,7 +1,9 @@
 <template>
   <div class="flex min-h-screen bg-vox-offwhite">
     <Sidebar />
-    <main class="flex-1 ml-64 p-8 animate-fade-in">
+    <div class="flex-1 ml-64 flex flex-col">
+      <Navbar />
+      <main class="flex-1 p-8 animate-fade-in">
       <div class="page-header flex items-center justify-between">
         <div>
           <h1 class="page-title">Riwayat Latihan</h1>
@@ -87,13 +89,15 @@
           </tbody>
         </table>
       </div>
-    </main>
+      </main>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 import Sidebar from '../components/Sidebar.vue'
+import Navbar from '../components/Navbar.vue'
 import { useEvaluationStore } from '../stores/evaluation'
 
 const evaluationStore = useEvaluationStore()
