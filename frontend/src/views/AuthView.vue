@@ -78,6 +78,11 @@
             <span v-if="isLoading" class="spinner w-4 h-4 border-white border-t-transparent" />
             <span>{{ isLoading ? 'Masuk...' : 'Masuk' }}</span>
           </button>
+          <div class="text-center">
+            <RouterLink to="/forgot-password" class="text-xs text-vox-midgray hover:text-vox-black transition-colors">
+              Lupa password?
+            </RouterLink>
+          </div>
         </form>
 
         <!-- Register Form -->

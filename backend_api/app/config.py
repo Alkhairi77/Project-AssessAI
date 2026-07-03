@@ -44,8 +44,8 @@ EMOTION_PRESENTATION_SCORE = {
 }
 
 # Whisper model size
-# 'tiny' = ~39MB, ~10-30s on CPU  ← recommended for development
-# 'base' = ~74MB, ~30-60s on CPU
-# 'small' = ~244MB, 3-10 min on CPU  ← too slow for 120s timeout
-WHISPER_MODEL = "tiny"  # Change to 'small' only if GPU is available
+# 'tiny' = ~39MB, cepat tapi kurang akurat
+# 'base' = ~74MB, akurasi lebih baik untuk BI  ← DIGUNAKAN
+# 'small' = ~244MB, sangat akurat tapi butuh GPU/RAM besar
+WHISPER_MODEL = "base"  # Upgrade dari tiny untuk akurasi Bahasa Indonesia
 WHISPER_LANGUAGE = "id"  # Indonesian

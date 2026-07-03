@@ -21,6 +21,20 @@
           />
         </div>
 
+        <!-- Course selection -->
+        <div class="card mb-5">
+          <label class="input-label">Mata Kuliah / Kelas <span class="text-vox-midgray font-normal normal-case">(opsional)</span></label>
+          <select
+            id="presentation-course"
+            v-model="selectedCourseId"
+            class="input-field"
+            :disabled="isUploading || isAnalyzing"
+          >
+            <option value="">-- Pilih Kelas (opsional) --</option>
+            <option v-for="c in courses" :key="c.id" :value="c.id">{{ c.name }}</option>
+          </select>
+        </div>
+
         <!-- Dropzone -->
         <div
           id="audio-dropzone"
@@ -148,15 +162,18 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Sidebar from '../components/Sidebar.vue'
 import { useEvaluationStore } from '../stores/evaluation'
+import api from '../services/api'
 
 const router = useRouter()
 const evaluationStore = useEvaluationStore()
 
 const title = ref('Latihan Presentasi')
+const selectedCourseId = ref('')
+const courses = ref<any[]>([])
 const selectedFile = ref<File | null>(null)
 const fileInput = ref<HTMLInputElement | null>(null)
 const isDragOver = ref(false)
@@ -165,6 +182,15 @@ const isAnalyzing = ref(false)
 const errorMessage = ref('')
 
 const uploadProgress = ref(0)
+
+onMounted(async () => {
+  try {
+    const res = await api.get('/courses')
+    courses.value = res.data
+  } catch {
+    courses.value = []
+  }
+})
 
 watch(() => evaluationStore.uploadProgress, (val) => {
   uploadProgress.value = val
@@ -221,6 +247,7 @@ async function handleSubmit() {
     const presentationId = await evaluationStore.uploadAudio(
       selectedFile.value,
       title.value || 'Latihan Presentasi',
+      selectedCourseId.value || undefined,
     )
     isUploading.value = false
     isAnalyzing.value = true

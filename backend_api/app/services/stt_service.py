@@ -24,7 +24,8 @@ def transcribe_audio(file_path: str) -> str:
     """
     Transcribe audio file to text using Whisper.
     Loads audio via librosa to avoid FFmpeg dependency on Windows.
-    Returns transcription string.
+    Uses initial_prompt for better Indonesian language recognition.
+    Returns cleaned transcription string.
     """
     try:
         import numpy as np
@@ -38,20 +39,60 @@ def transcribe_audio(file_path: str) -> str:
         # Convert to float32 as Whisper expects
         audio_array = audio_array.astype(np.float32)
 
+        # initial_prompt: memberi konteks ke Whisper bahwa ini presentasi akademik BI
+        initial_prompt = (
+            "Berikut adalah rekaman presentasi akademik dalam Bahasa Indonesia. "
+            "Mahasiswa mempresentasikan materi kuliah dengan bahasa formal."
+        )
+
         # Pass numpy array directly — no FFmpeg needed
         result = model.transcribe(
             audio_array,
             language=WHISPER_LANGUAGE,
             task="transcribe",
             fp16=False,
+            initial_prompt=initial_prompt,
+            condition_on_previous_text=True,
+            temperature=0.0,          # deterministic output, lebih konsisten
+            no_speech_threshold=0.6,  # abaikan segmen senyap
+            compression_ratio_threshold=2.4,
         )
-        transcription = result.get("text", "").strip()
-        return transcription
+        raw_text = result.get("text", "").strip()
+        return _post_process_transcription(raw_text)
     except Exception as e:
         print(f"[STT] Transcription error: {e}")
         return ""
 
 
+def _post_process_transcription(text: str) -> str:
+    """
+    Bersihkan hasil transkripsi dari artefak umum Whisper.
+    """
+    if not text:
+        return ""
+
+    # Hapus pengulangan kata yang identik berturut-turut (Whisper hallucination)
+    text = re.sub(r'\b(\w+)( \1){2,}\b', r'\1', text, flags=re.IGNORECASE)
+
+    # Normalkan spasi berlebih
+    text = re.sub(r'\s+', ' ', text).strip()
+
+    # Hapus baris berulang (hallucination panjang)
+    lines = text.split('. ')
+    seen = set()
+    unique_lines = []
+    for line in lines:
+        clean = line.strip().lower()
+        if clean and clean not in seen:
+            seen.add(clean)
+            unique_lines.append(line.strip())
+    text = '. '.join(unique_lines)
+
+    # Pastikan diawali huruf kapital
+    if text:
+        text = text[0].upper() + text[1:]
+
+    return text
 
 def analyze_sentiment(text: str) -> float:
     """

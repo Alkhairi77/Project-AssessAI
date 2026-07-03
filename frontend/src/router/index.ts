@@ -55,6 +55,24 @@ const router = createRouter({
       meta: { requiresAuth: true, requiresRole: 'dosen' },
     },
     {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../views/ProfileView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/courses',
+      name: 'courses',
+      component: () => import('../views/CoursesView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/forgot-password',
+      name: 'forgot-password',
+      component: () => import('../views/ForgotPasswordView.vue'),
+      meta: { requiresGuest: false },
+    },
+    {
       path: '/:pathMatch(.*)*',
       redirect: '/dashboard',
     },

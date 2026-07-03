@@ -8,6 +8,8 @@ interface User {
   email: string
   role: 'mahasiswa' | 'dosen'
   nimNip?: string
+  avatarUrl?: string | null
+  createdAt?: string
 }
 
 export const useAuthStore = defineStore('auth', () => {

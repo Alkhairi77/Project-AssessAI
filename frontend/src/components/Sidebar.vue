@@ -32,22 +32,28 @@
 
     <!-- User info -->
     <div class="px-4 py-4 border-t border-white/10">
-      <div class="flex items-center gap-3 px-2 py-2 rounded hover:bg-white/5 transition-colors cursor-pointer">
-        <div class="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white text-xs font-bold">
-          {{ userInitial }}
+      <RouterLink to="/profile" class="flex items-center gap-3 px-2 py-2 rounded hover:bg-white/5 transition-colors cursor-pointer group">
+        <div class="w-8 h-8 rounded-full overflow-hidden bg-white/20 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+          <img
+            v-if="authStore.user?.avatarUrl"
+            :src="getAvatarUrl(authStore.user.avatarUrl)"
+            alt="avatar"
+            class="w-full h-full object-cover"
+          />
+          <span v-else>{{ userInitial }}</span>
         </div>
         <div class="flex-1 min-w-0">
           <div class="text-white text-xs font-medium truncate">{{ authStore.user?.name }}</div>
-          <div class="text-gray-500 text-xs capitalize">{{ authStore.user?.role }}</div>
+          <div class="text-gray-500 text-xs capitalize group-hover:text-gray-400">{{ authStore.user?.role }} · Profil</div>
         </div>
-        <button @click="handleLogout" class="text-gray-500 hover:text-white transition-colors p-1" title="Logout">
+        <button @click.prevent="handleLogout" class="text-gray-500 hover:text-white transition-colors p-1" title="Logout">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
             <polyline points="16 17 21 12 16 7"/>
             <line x1="21" y1="12" x2="9" y2="12"/>
           </svg>
         </button>
-      </div>
+      </RouterLink>
     </div>
   </aside>
 </template>
@@ -65,11 +71,13 @@ const mahasiswaNav = [
   { to: '/dashboard', label: 'Dashboard', icon: '⊞' },
   { to: '/upload', label: 'Latihan Baru', icon: '↑' },
   { to: '/history', label: 'Riwayat', icon: '≡' },
+  { to: '/courses', label: 'Kelas', icon: '◫' },
 ]
 
 const dosenNav = [
   { to: '/dashboard', label: 'Dashboard', icon: '⊞' },
   { to: '/lecturer', label: 'Monitor Mahasiswa', icon: '◈' },
+  { to: '/courses', label: 'Kelas Saya', icon: '◫' },
 ]
 
 const navItems = computed(() =>
@@ -82,6 +90,12 @@ const userInitial = computed(() =>
 
 function isActive(path: string) {
   return route.path === path || route.path.startsWith(path + '/')
+}
+
+function getAvatarUrl(url?: string | null) {
+  if (!url) return null
+  if (url.startsWith('http')) return url
+  return `http://localhost:3000${url}`
 }
 
 function handleLogout() {

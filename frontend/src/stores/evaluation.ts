@@ -34,7 +34,7 @@ export const useEvaluationStore = defineStore('evaluation', () => {
   const isProcessing = ref(false)
   const uploadProgress = ref(0)
 
-  async function uploadAudio(file: File, title: string): Promise<string> {
+  async function uploadAudio(file: File, title: string, courseId?: string): Promise<string> {
     isProcessing.value = true
     uploadProgress.value = 0
 
@@ -42,6 +42,7 @@ export const useEvaluationStore = defineStore('evaluation', () => {
       const formData = new FormData()
       formData.append('audio', file)
       formData.append('title', title)
+      if (courseId) formData.append('courseId', courseId)
 
       const response = await api.post('/presentations', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },

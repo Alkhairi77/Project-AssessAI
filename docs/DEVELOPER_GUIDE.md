@@ -1007,16 +1007,23 @@ Berdasarkan file `docs/add_feature.md`, fitur yang direncanakan:
 - Frontend: halaman `/profile` dengan form edit nama, NIM/NIP, foto profil
 - Upload foto ke `uploads/avatars/`
 
-#### 2. Manajemen Mata Kuliah (Dosen)
-- Model baru: `Course` (id, name, code, dosenId, semester)
+#### 2. Manajemen Kelas/Mata Kuliah (Dosen)
+- Tabel baru: `Courses` (id, name, dosenId) -> hubungkan dengan tabel presentations
 - Endpoint CRUD: `/api/courses`
 - Relasi: Dosen memiliki banyak Mata Kuliah
+- dosen dapat memfilter mahasiswa berdasarkan mata kuliah
 
-#### 3. Sistem Kelas (Dosen & Mahasiswa)
-- Model baru: `Class` (courseId, name), `ClassMember` (classId, userId)
-- Dosen assign mahasiswa ke kelas
-- Presentasi terhubung ke kelas tertentu
-- Dosen hanya melihat mahasiswa di kelas miliknya
+#### 3. Upload (Mahasiswa)
+- Mahasiswa dapat memilih kelas/mata kuliah saat upload file audio
+- Dosen hanya melihat mahasiswa di kelas/mata kuliah miliknya
+
+#### 4. Lupa Password
+- Halaman `/forgot-password`
+- Endpoint POST `/api/auth/forgot-password`
+- Kirim email reset link (bisa mock dulu)
+
+#### 5. Perbaiki Transkripsi audio
+- perbaiki transkripsi audio agar teksnya akurat dengan audio bahasa indonesia
 
 ### Peningkatan Teknis yang Direkomendasikan
 
