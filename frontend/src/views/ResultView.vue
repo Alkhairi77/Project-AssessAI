@@ -1,7 +1,9 @@
 <template>
   <div class="flex min-h-screen bg-vox-offwhite">
     <Sidebar />
-    <main class="flex-1 ml-64 p-8 animate-fade-in">
+    <div class="flex-1 ml-50 flex flex-col">
+      <Navbar />
+      <main class="flex-1 p-8 animate-fade-in">
       <!-- Loading -->
       <div v-if="isLoading" class="flex flex-col items-center justify-center h-64 gap-4">
         <div class="spinner" style="width: 32px; height: 32px;" />
@@ -131,7 +133,8 @@
           <router-link to="/upload" class="btn-primary text-sm">Latihan Lagi</router-link>
         </div>
       </div>
-    </main>
+      </main>
+    </div>
   </div>
 </template>
 
@@ -139,6 +142,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import Sidebar from '../components/Sidebar.vue'
+import Navbar from '../components/Navbar.vue'
 import Waveform from '../components/Waveform.vue'
 import { useEvaluationStore } from '../stores/evaluation'
 

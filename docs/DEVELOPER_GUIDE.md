@@ -1062,4 +1062,109 @@ Berdasarkan file `docs/add_feature.md`, fitur yang direncanakan:
 
 ---
 
-*Dokumen ini dihasilkan dari analisis kode sumber AssessAI v1.0.0*
+## 16. Changelog & Riwayat Perubahan
+
+### v1.2.0 — Juli 2026
+
+#### ✅ Fitur Baru
+
+##### User Profile Management
+- **Endpoint:** `GET /api/users/profile`, `PUT /api/users/profile`, `POST /api/users/avatar`
+- **Frontend:** Halaman `/profile` — form edit nama & NIM/NIP, upload foto avatar (maks 5MB)
+- **Storage:** Avatar disimpan di `uploads/avatars/`, diakses via `GET /uploads/avatars/:filename` (static file)
+- **Module:** `src/users/users.module.ts`, `users.service.ts`, `users.controller.ts`
+
+##### Manajemen Kelas / Mata Kuliah (Dosen)
+- **Endpoint:** `GET /api/courses`, `POST /api/courses`, `DELETE /api/courses/:id`, `GET /api/courses/:id/presentations`
+- **Frontend:** Halaman `/courses` — dosen buat/hapus kelas, klik kelas untuk melihat tabel presentasi dengan tombol **Detail →**
+- **DB:** Tabel baru `courses` (id, name, dosen_id, created_at)
+- **Module:** `src/courses/courses.module.ts`, `courses.service.ts`, `courses.controller.ts`
+
+##### Upload dengan Pilih Kelas (Mahasiswa)
+- Form upload audio di `/upload` menampilkan **dropdown pilih kelas** (opsional)
+- Kelas dipilih dikirim sebagai `courseId` ke endpoint `POST /api/presentations`
+- DB: kolom `course_id` (nullable FK) ditambahkan ke tabel `presentations`
+- Dosen dapat memfilter presentasi mahasiswa berdasarkan kelas di `/lecturer`
+
+##### Lupa Password (Mock)
+- **Endpoint:** `POST /api/auth/forgot-password` — validasi email, generate mock reset token
+- **Frontend:** Halaman `/forgot-password` + link "Lupa password?" di halaman login
+- Di produksi: ganti logic dengan kirim email via SMTP/Nodemailer
+
+##### Riwayat Presentasi Dosen (Monitor Mahasiswa)
+- Tabel di `/lecturer` diganti dari **rekap per mahasiswa** menjadi **daftar semua presentasi** (flat list)
+- Kolom: Nama & NIM (ditumpuk), Kelas, Topik Presentasi, Skor, Tanggal, Tombol Detail
+- Filter berdasarkan kelas dan pencarian nama/NIM
+- Export CSV menyertakan kolom Artikulasi, Intonasi, Kelas
+
+##### Navbar Global
+- Komponen `Navbar.vue` ditambahkan di semua halaman authenticated
+- Fitur: page title, dropdown profil (avatar + nama + role), link ke Profil & Kelas, tombol Keluar
+- Profil tidak lagi di Sidebar; Sidebar hanya menampilkan navigasi + logout
+
+#### ✅ Perbaikan
+
+##### Akurasi Transkripsi Whisper
+- Model `tiny` (39MB) → **`base`** (74MB) untuk akurasi lebih baik
+- Ditambah `initial_prompt` berbahasa Indonesia: *"Berikut adalah rekaman presentasi akademik..."*
+- Parameter tambahan: `temperature=0.0`, `no_speech_threshold=0.6`, `condition_on_previous_text=True`
+- Post-processing: hapus pengulangan kata (hallucination), normalisasi spasi, kapitalisasi awal
+
+##### Animasi Loading Analisis (Mahasiswa)
+- Progress bar tidak lagi "langsung selesai" — menggunakan animasi smooth hingga ~88%
+- Pesan status berganti setiap 8 detik: "Memuat model AI" → "Mengekstrak fitur" → dst.
+- **Tidak ada time limit** — polling setiap 4 detik sampai hasil keluar
+- Otomatis redirect ke `/result/:id` begitu analisis selesai (dengan delay 600ms untuk menampilkan 100%)
+
+##### Static File Serving
+- NestJS `main.ts` diupdate menggunakan `NestExpressApplication` + `app.useStaticAssets()`
+- File avatar dapat diakses via `http://localhost:3000/uploads/avatars/:filename`
+- `forbidNonWhitelisted: false` di ValidationPipe untuk toleransi field opsional
+
+#### Migrasi Database
+```sql
+-- Migration: 20260703024019_add_course_avatar
+ALTER TABLE users ADD COLUMN avatar_url VARCHAR(500);
+CREATE TABLE courses (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  dosen_id INT NOT NULL,
+  created_at DATETIME DEFAULT NOW(),
+  FOREIGN KEY (dosen_id) REFERENCES users(id) ON DELETE CASCADE
+);
+ALTER TABLE presentations ADD COLUMN course_id INT,
+  ADD FOREIGN KEY (course_id) REFERENCES courses(id) ON DELETE SET NULL;
+```
+
+#### File yang Diubah / Dibuat
+
+| File | Aksi | Keterangan |
+|------|------|------------|
+| `prisma/schema.prisma` | MODIFY | Tambah `avatarUrl`, model `Course`, `courseId` |
+| `src/users/` (module) | NEW | Profile management module |
+| `src/courses/` (module) | NEW | Course management module |
+| `src/auth/auth.service.ts` | MODIFY | Tambah `forgotPassword()` |
+| `src/auth/auth.controller.ts` | MODIFY | Tambah `POST /auth/forgot-password` |
+| `src/presentations/presentations.service.ts` | MODIFY | `create()` terima `courseId`, `findAllForDosen()` flat list |
+| `src/main.ts` | MODIFY | Static file serving untuk `/uploads` |
+| `src/app.module.ts` | MODIFY | Register `UsersModule`, `CoursesModule` |
+| `frontend/src/components/Navbar.vue` | NEW | Global navbar dengan profile dropdown |
+| `frontend/src/views/ProfileView.vue` | NEW | Halaman profil pengguna |
+| `frontend/src/views/CoursesView.vue` | NEW | Halaman kelas/mata kuliah |
+| `frontend/src/views/ForgotPasswordView.vue` | NEW | Halaman lupa password |
+| `frontend/src/views/LecturerView.vue` | MODIFY | Tabel riwayat presentasi + filter kelas + export CSV |
+| `frontend/src/views/UploadView.vue` | MODIFY | Dropdown kelas + smooth loading animation |
+| `frontend/src/views/DashboardView.vue` | MODIFY | Tambah Navbar |
+| `frontend/src/views/HistoryView.vue` | MODIFY | Tambah Navbar |
+| `frontend/src/views/ResultView.vue` | MODIFY | Tambah Navbar |
+| `frontend/src/views/ProfileView.vue` | MODIFY | Tambah Navbar |
+| `frontend/src/components/Sidebar.vue` | MODIFY | Hapus RouterLink profil, tambah menu Kelas |
+| `frontend/src/stores/auth.ts` | MODIFY | Tambah `avatarUrl`, `createdAt` ke tipe User |
+| `frontend/src/stores/evaluation.ts` | MODIFY | `uploadAudio()` terima `courseId` |
+| `frontend/src/router/index.ts` | MODIFY | Tambah route `/profile`, `/courses`, `/forgot-password` |
+| `backend_api/app/config.py` | MODIFY | `WHISPER_MODEL = "base"` |
+| `backend_api/app/services/stt_service.py` | MODIFY | `initial_prompt`, `temperature=0`, post-processing |
+
+---
+
+*Dokumen ini dihasilkan dari analisis kode sumber AssessAI v1.2.0*

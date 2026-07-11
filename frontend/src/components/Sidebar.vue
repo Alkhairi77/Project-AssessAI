@@ -1,19 +1,16 @@
 <template>
-  <aside class="fixed left-0 top-0 h-screen w-64 bg-vox-black flex flex-col z-40">
+  <aside class="fixed left-0 top-0 h-screen w-50 bg-vox-black flex flex-col z-40">
     <!-- Logo -->
-    <div class="px-6 pt-8 pb-6 border-b border-white/10">
-      <div class="flex items-center gap-3">
-        <div class="w-8 h-8 bg-white flex items-center justify-center rounded-sm">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M3 10 L10 3 L17 10 L10 17 Z" fill="black"/>
-            <circle cx="10" cy="10" r="3" fill="white"/>
-          </svg>
+    <div class="px-6 pt-2 pb-2 border-b ">
+      <div class="flex items-center justify-center">
+        <div class="w-16 h-16 bg-white flex items-center justify-center rounded-sm">
+          <img src="../assets/logo.png" alt="logo">
         </div>
-        <div>
+      </div>
+      <div class="flex flex-col items-center">
           <div class="text-white font-bold text-sm tracking-widest uppercase">AssessAI</div>
           <div class="text-gray-500 text-xs">AI Speech Evaluator</div>
         </div>
-      </div>
     </div>
 
     <!-- Navigation -->
@@ -104,6 +101,6 @@ function getAvatarUrl(url?: string | null) {
 
 function handleLogout() {
   authStore.logout()
-  router.push('/login')
+  router.push('/')
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-screen bg-vox-offwhite">
     <Sidebar />
-    <div class="flex-1 ml-64 flex flex-col">
+    <div class="flex-1 ml-50 flex flex-col">
       <Navbar />
       <main class="flex-1 p-8 animate-fade-in">
         <!-- Page header -->
@@ -172,8 +172,9 @@ const dosenStats = ref<any[]>([])
 
 const greeting = computed(() => {
   const h = new Date().getHours()
-  if (h < 12) return 'Selamat pagi! Semangat berlatih hari ini.'
-  if (h < 17) return 'Selamat siang! Terus tingkatkan kemampuan presentasimu.'
+  if (h < 11) return 'Selamat pagi! Semangat berlatih hari ini.'
+  if (h < 16) return 'Selamat siang! Terus tingkatkan kemampuan presentasimu.'
+  if (h < 18) return 'Selamat sore! Terus tingkatkan kemampuan presentasimu.'
   return 'Selamat malam! Review hasil latihanmu hari ini.'
 })
 

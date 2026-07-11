@@ -20,7 +20,7 @@
         </div>
         <div class="nav-actions">
           <RouterLink to="/login" class="btn-nav-outline">Masuk</RouterLink>
-          <RouterLink to="/register" class="btn-nav-primary">Mulai Gratis</RouterLink>
+          <RouterLink to="/register" class="btn-nav-primary">Daftar</RouterLink>
         </div>
         <!-- Mobile menu toggle -->
         <button class="mobile-menu-btn" @click="mobileMenuOpen = !mobileMenuOpen">

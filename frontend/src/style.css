@@ -84,11 +84,16 @@
 
   /* Cards */
   .card {
-    @apply bg-vox-white border border-vox-lightgray rounded-lg p-6;
+    @apply bg-vox-white border border-vox-lightgray rounded-lg p-6
+           shadow-sm;
   }
 
   .card-shadow {
-    @apply card shadow-sm hover:shadow-md transition-shadow duration-200;
+    @apply card shadow-md hover:shadow-lg transition-shadow duration-200;
+  }
+
+  .card-elevated {
+    @apply card shadow-lg hover:shadow-xl transition-shadow duration-200;
   }
 
   /* Navigation */
@@ -104,7 +109,8 @@
 
   /* Stats cards */
   .stat-card {
-    @apply card flex flex-col gap-1;
+    @apply card flex flex-col gap-1
+           shadow-sm hover:shadow-md transition-shadow duration-200;
   }
 
   .stat-number {
@@ -156,7 +162,12 @@
   }
 
   .data-table tr:hover td {
-    @apply bg-vox-offwhite;
+    @apply bg-vox-offwhite transition-colors;
+  }
+
+  /* Table wrapper with shadow */
+  .table-container {
+    @apply bg-vox-white border border-vox-lightgray rounded-lg shadow-sm overflow-hidden;
   }
 
   /* Badge */

@@ -7,6 +7,9 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      spacing: {
+        '50': '200px',
+      },
       colors: {
         // VoxGrade Monochrome Palette
         'vox-black': '#000000',

@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-screen bg-vox-offwhite">
     <Sidebar />
-    <div class="flex-1 ml-64 flex flex-col">
+    <div class="flex-1 ml-50 flex flex-col">
       <Navbar />
       <main class="flex-1 p-8 animate-fade-in">
       <div class="page-header flex items-center justify-between">

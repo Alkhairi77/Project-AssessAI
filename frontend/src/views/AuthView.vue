@@ -2,13 +2,9 @@
   <div class="min-h-screen bg-vox-offwhite flex items-center justify-center p-4">
     <div class="w-full max-w-md animate-fade-in">
       <!-- Logo -->
-      <div class="text-center mb-10">
-        <div class="inline-flex items-center justify-center w-14 h-14 bg-vox-black rounded-lg mb-4">
-          <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-            <path d="M5 16 L16 5 L27 16 L16 27 Z" fill="white" opacity="0.9"/>
-            <circle cx="16" cy="16" r="5" fill="white"/>
-            <circle cx="16" cy="16" r="2" fill="black"/>
-          </svg>
+      <div class="text-center mb-3">
+        <div class="inline-flex items-center justify-center">
+          <img src="../assets/logo.png" alt="logo" width="75" height="75" style="border-radius: 16px;">
         </div>
         <h1 class="text-2xl font-bold text-vox-black tracking-tight">AssessAI</h1>
         <p class="text-vox-gray text-sm mt-1">AI Speech Evaluation System</p>
@@ -120,7 +116,7 @@
             />
           </div>
           <div>
-            <label class="input-label">Peran</label>
+            <label class="input-label">Status</label>
             <select id="register-role" v-model="registerForm.role" class="input-field">
               <option value="mahasiswa">Mahasiswa</option>
               <option value="dosen">Dosen</option>
