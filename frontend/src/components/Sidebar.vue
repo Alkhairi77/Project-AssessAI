@@ -93,8 +93,8 @@ function isActive(path: string) {
   return route.path === path || route.path.startsWith(path + '/')
 }
 
-function getAvatarUrl(url?: string | null) {
-  if (!url) return null
+function getAvatarUrl(url?: string | null): string | undefined {
+  if (!url) return undefined
   if (url.startsWith('http')) return url
   return `http://localhost:3000${url}`
 }

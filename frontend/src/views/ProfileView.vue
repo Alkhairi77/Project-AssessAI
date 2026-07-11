@@ -188,8 +188,8 @@ function handleAvatarSelect(event: Event) {
   }
 }
 
-function getAvatarUrl(url?: string | null) {
-  if (!url) return null
+function getAvatarUrl(url?: string | null): string | undefined {
+  if (!url) return undefined
   if (url.startsWith('http')) return url
   return `http://localhost:3000${url}`
 }
@@ -207,7 +207,7 @@ async function uploadAvatar() {
     avatarFile.value = null
     avatarSuccess.value = true
     // Update store user
-    authStore.setAuth(authStore.token!, { ...authStore.user!, avatarUrl: res.data.avatarUrl } as any)
+    authStore.updateUser({ avatarUrl: res.data.avatarUrl })
   } catch (e: any) {
     updateError.value = e.response?.data?.message || 'Gagal mengunggah foto'
   } finally {
@@ -227,7 +227,7 @@ async function handleUpdate() {
     user.value = { ...user.value, ...res.data }
     updateSuccess.value = true
     // Update auth store & localStorage
-    authStore.setAuth(authStore.token!, { ...authStore.user!, name: form.name, nimNip: form.nimNip } as any)
+    authStore.updateUser({ name: form.name, nimNip: form.nimNip || undefined })
   } catch (e: any) {
     updateError.value = e.response?.data?.message || 'Gagal menyimpan perubahan'
   } finally {

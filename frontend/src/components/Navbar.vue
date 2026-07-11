@@ -241,8 +241,8 @@ function goToFirstResult() {
   }
 }
 
-function getAvatarUrl(url?: string | null) {
-  if (!url) return null
+function getAvatarUrl(url?: string | null): string | undefined {
+  if (!url) return undefined
   if (url.startsWith('http')) return url
   return `http://localhost:3000${url}`
 }
