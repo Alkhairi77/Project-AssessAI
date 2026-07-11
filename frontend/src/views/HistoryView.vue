@@ -13,7 +13,9 @@
 
       <!-- Loading -->
       <div v-if="isLoading" class="flex items-center justify-center h-64">
-        <div class="spinner" />
+        <div class="spinner" >
+          
+        </div>
       </div>
 
       <!-- Empty state -->

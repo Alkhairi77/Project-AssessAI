@@ -4,12 +4,13 @@
     <div class="flex-1 ml-50 flex flex-col">
       <Navbar />
       <main class="flex-1 p-8 animate-fade-in">
-        <div class="page-header">
-          <h1 class="page-title">Latihan Baru</h1>
-          <p class="page-subtitle">Unggah rekaman presentasi Anda untuk dianalisis oleh AI</p>
+        <div class="page-header flex items-center justify-between">
+          <div>
+            <h1 class="page-title">Latihan Baru</h1>
+            <p class="page-subtitle">Unggah rekaman presentasi Anda untuk dianalisis oleh AI</p>
+          </div>
         </div>
-
-        <div class="max-w-2xl">
+        <div>
           <!-- Title input -->
           <div class="card mb-5">
             <label class="input-label">Judul Presentasi</label>

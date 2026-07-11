@@ -85,7 +85,7 @@
   /* Cards */
   .card {
     @apply bg-vox-white border border-vox-lightgray rounded-lg p-6
-           shadow-sm;
+           shadow-md;
   }
 
   .card-shadow {
@@ -110,7 +110,7 @@
   /* Stats cards */
   .stat-card {
     @apply card flex flex-col gap-1
-           shadow-sm hover:shadow-md transition-shadow duration-200;
+           shadow-md hover:shadow-lg transition-shadow duration-200;
   }
 
   .stat-number {
@@ -167,7 +167,7 @@
 
   /* Table wrapper with shadow */
   .table-container {
-    @apply bg-vox-white border border-vox-lightgray rounded-lg shadow-sm overflow-hidden;
+    @apply bg-vox-white border border-vox-lightgray rounded-lg shadow-md overflow-hidden;
   }
 
   /* Badge */

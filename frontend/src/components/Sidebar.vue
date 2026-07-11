@@ -3,7 +3,7 @@
     <!-- Logo -->
     <div class="px-6 pt-2 pb-2 border-b ">
       <div class="flex items-center justify-center">
-        <div class="w-16 h-16 bg-white flex items-center justify-center rounded-sm">
+        <div class="w-10 h-10 bg-white flex items-center justify-center rounded-sm">
           <img src="../assets/logo.png" alt="logo">
         </div>
       </div>
