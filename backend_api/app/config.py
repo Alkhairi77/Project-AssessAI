@@ -3,7 +3,7 @@ import os
 # Paths
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MODEL_DIR = os.path.join(BASE_DIR, "models")
-MODEL_PATH = os.path.join(MODEL_DIR, "model_final_indowave.keras")
+MODEL_PATH = os.path.join(MODEL_DIR, "best_model_indowave.keras")
 
 # Audio processing parameters
 # Model input shape: (batch, N_MFCC, MAX_PAD_LEN, 1) = (batch, 40, 216, 1)

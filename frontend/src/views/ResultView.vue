@@ -18,7 +18,7 @@
       </div>
 
       <!-- Result content -->
-      <div v-else class="max-w-4xl">
+      <div v-else >
         <!-- Header -->
         <div class="page-header flex items-start justify-between">
           <div>

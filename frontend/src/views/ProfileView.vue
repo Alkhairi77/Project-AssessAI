@@ -9,7 +9,7 @@
         <p class="page-subtitle">Kelola informasi akun dan foto profil Anda</p>
       </div>
 
-      <div class="max-w-2xl space-y-6">
+      <div class="space-y-6">
         <!-- Avatar Card -->
         <div class="card">
           <p class="text-xs font-semibold text-vox-gray uppercase tracking-wider mb-4">Foto Profil</p>

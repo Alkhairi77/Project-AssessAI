@@ -8,7 +8,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 import numpy as np
 
-MODEL_PATH = os.path.join("models", "model_final_indowave.keras")
+MODEL_PATH = os.path.join("models", "best_model_indowave.keras")
 
 print("=" * 60)
 print("Loading model:", MODEL_PATH)
