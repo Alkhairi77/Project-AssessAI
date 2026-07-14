@@ -20,14 +20,22 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 )
 
-// Response interceptor: handle 401
+// Response interceptor: handle 401 (session expired)
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('assess_token')
-      localStorage.removeItem('assess_user')
-      window.location.href = '/login'
+    const isAuthEndpoint =
+      error.config?.url?.includes('/auth/login') ||
+      error.config?.url?.includes('/auth/register')
+
+    // Only redirect if token exists (session expired) and NOT on login/register
+    if (error.response?.status === 401 && !isAuthEndpoint) {
+      const hasToken = !!localStorage.getItem('assess_token')
+      if (hasToken) {
+        localStorage.removeItem('assess_token')
+        localStorage.removeItem('assess_user')
+        window.location.href = '/login'
+      }
     }
     return Promise.reject(error)
   },

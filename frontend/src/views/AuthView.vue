@@ -50,15 +50,36 @@
           </div>
           <div>
             <label class="input-label">Password</label>
-            <input
-              id="login-password"
-              v-model="loginForm.password"
-              type="password"
-              class="input-field"
-              placeholder="••••••••"
-              autocomplete="current-password"
-              required
-            />
+            <div class="relative">
+              <input
+                id="login-password"
+                v-model="loginForm.password"
+                :type="showLoginPassword ? 'text' : 'password'"
+                class="input-field pr-11"
+                placeholder="••••••••"
+                autocomplete="current-password"
+                required
+              />
+              <button
+                type="button"
+                tabindex="-1"
+                @click="showLoginPassword = !showLoginPassword"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-vox-midgray hover:text-vox-black transition-colors"
+                :title="showLoginPassword ? 'Sembunyikan password' : 'Tampilkan password'"
+              >
+                <!-- Eye icon (password visible) -->
+                <svg v-if="showLoginPassword" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <!-- Eye-off icon (password hidden) -->
+                <svg v-else width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              </button>
+            </div>
           </div>
 
           <div v-if="error" class="text-xs text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">
@@ -124,15 +145,34 @@
           </div>
           <div>
             <label class="input-label">Password</label>
-            <input
-              id="register-password"
-              v-model="registerForm.password"
-              type="password"
-              class="input-field"
-              placeholder="Minimal 6 karakter"
-              required
-              minlength="6"
-            />
+            <div class="relative">
+              <input
+                id="register-password"
+                v-model="registerForm.password"
+                :type="showRegisterPassword ? 'text' : 'password'"
+                class="input-field pr-11"
+                placeholder="Minimal 6 karakter"
+                required
+                minlength="6"
+              />
+              <button
+                type="button"
+                tabindex="-1"
+                @click="showRegisterPassword = !showRegisterPassword"
+                class="absolute right-3 top-1/2 -translate-y-1/2 text-vox-midgray hover:text-vox-black transition-colors"
+                :title="showRegisterPassword ? 'Sembunyikan password' : 'Tampilkan password'"
+              >
+                <svg v-if="showRegisterPassword" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg v-else width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
+                  <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              </button>
+            </div>
           </div>
 
           <div v-if="error" class="text-xs text-red-600 bg-red-50 border border-red-200 rounded px-3 py-2">
@@ -171,6 +211,8 @@ const authStore = useAuthStore()
 const currentMode = ref(props.mode || 'login')
 const isLoading = ref(false)
 const error = ref('')
+const showLoginPassword = ref(false)
+const showRegisterPassword = ref(false)
 
 const loginForm = reactive({ email: '', password: '' })
 const registerForm = reactive({
