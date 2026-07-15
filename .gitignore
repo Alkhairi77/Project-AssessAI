@@ -16,5 +16,3 @@ backend_nestjs/node_modules/
 
 # JetBrains
 .idea/
-
-docs/
