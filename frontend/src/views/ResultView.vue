@@ -19,7 +19,28 @@
 
       <!-- Result content -->
       <div v-else >
-        <!-- Header -->
+
+        <!-- AI Analysis Error State -->
+        <div v-if="evaluation.feedback?.startsWith('[ERROR]')" class="flex flex-col items-center justify-center h-80 gap-5">
+          <div class="w-14 h-14 rounded-full bg-red-50 border border-red-200 flex items-center justify-center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#EF4444" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+          </div>
+          <div class="text-center max-w-md">
+            <p class="font-semibold text-vox-black mb-2">Analisis Gagal</p>
+            <p class="text-sm text-vox-gray">{{ evaluation.feedback.replace('[ERROR] ', '') }}</p>
+          </div>
+          <div class="flex gap-3">
+            <router-link to="/upload" class="btn-primary text-sm">Coba Unggah Ulang</router-link>
+            <router-link to="/history" class="btn-outline text-sm">Lihat Riwayat</router-link>
+          </div>
+        </div>
+
+        <!-- Normal result -->
+        <template v-else>
         <div class="page-header flex items-start justify-between">
           <div>
             <h1 class="page-title">Hasil Analisis AI</h1>
@@ -132,6 +153,7 @@
           <router-link to="/history" class="btn-outline text-sm">← Riwayat</router-link>
           <router-link to="/upload" class="btn-primary text-sm">Latihan Lagi</router-link>
         </div>
+        </template>
       </div>
       </main>
     </div>

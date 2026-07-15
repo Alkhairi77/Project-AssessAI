@@ -163,6 +163,10 @@ async def analyze_audio(file: UploadFile = File(...)):
         result = await loop.run_in_executor(executor, _run_analysis, tmp_path)
         return AnalysisResponse(**result)
 
+    except ValueError as e:
+        # Raised by validate_audio_file() or load_and_preprocess() for invalid/corrupt files
+        raise HTTPException(status_code=422, detail=str(e))
+
     except Exception as e:
         import traceback
         traceback.print_exc()
