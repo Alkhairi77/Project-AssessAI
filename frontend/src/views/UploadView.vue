@@ -262,6 +262,14 @@ function validateAndSet(file: File) {
     errorMessage.value = 'Hanya format .WAV dan .MP3 yang didukung.'
     return
   }
+  if (file.size === 0) {
+    errorMessage.value = 'File audio kosong (0 byte). Pastikan file berisi rekaman yang valid.'
+    return
+  }
+  if (file.size < 10 * 1024) {
+    errorMessage.value = `File terlalu kecil (${file.size} byte). File audio yang valid biasanya berukuran minimal ~10 KB.`
+    return
+  }
   if (file.size > 52428800) {
     errorMessage.value = 'Ukuran file maksimal 50 MB.'
     return
